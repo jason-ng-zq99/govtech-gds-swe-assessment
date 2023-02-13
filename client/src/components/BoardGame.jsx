@@ -1,14 +1,58 @@
 // code contributed from https://beta.reactjs.org/learn/tutorial-tic-tac-toe
 
 import { useState } from 'react';
+import styled from "styled-components";
 
-function Square({ value, onSquareClick }) {
+// additional container to prevent button from moving when text is input
+const StyledButtonsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`
+
+const StyledButton = styled.button`
+  width: 150px;
+  height: 150px;
+  color: white;
+  font-size: 100px;
+  background-color: ${props => gameState[props.index] === 'O' 
+                                                      ? "red" 
+                                                      : gameState[props.index] === 'X' 
+                                                                                ? "green"
+                                                                                : "black"};
+`
+
+function Square({ value, onSquareClick, squareIndex }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <StyledButton index={squareIndex} onClick={onSquareClick}>
       {value}
-    </button>
+    </StyledButton>
   );
 }
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+
+  return null;
+}
+
+let gameState = ['_', '_', '_', '_', '_', '_', '_', '_', '_'];
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
@@ -18,8 +62,10 @@ function Board({ xIsNext, squares, onPlay }) {
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = 'X';
+      gameState[i] = 'X';
     } else {
       nextSquares[i] = 'O';
+      gameState[i] = 'O';
     }
     onPlay(nextSquares);
   }
@@ -35,26 +81,33 @@ function Board({ xIsNext, squares, onPlay }) {
   return (
     <>
       <div className="status">{status}</div>
+      
       <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+        <StyledButtonsContainer>
+          <Square squareIndex={0} ariaDescribedBy={"Top left button"} value={squares[0]} onSquareClick={() => handleClick(0)} />
+          <Square squareIndex={1} ariaDescribedBy={"Top centre button"} value={squares[1]} onSquareClick={() => handleClick(1)} />
+          <Square squareIndex={2} ariaDescribedBy={"Top right button"} value={squares[2]} onSquareClick={() => handleClick(2)} />
+        </StyledButtonsContainer>
       </div>
       <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
+        <StyledButtonsContainer>
+          <Square squareIndex={3} ariaDescribedBy={"Centre left button"} value={squares[3]} onSquareClick={() => handleClick(3)} />
+          <Square squareIndex={4} ariaDescribedBy={"Centre centre button"} value={squares[4]} onSquareClick={() => handleClick(4)} />
+          <Square squareIndex={5} ariaDescribedBy={"Centre right button"} value={squares[5]} onSquareClick={() => handleClick(5)} />
+        </StyledButtonsContainer>
       </div>
       <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+        <StyledButtonsContainer>
+          <Square squareIndex={6} ariaDescribedBy={"Bottom left button"} value={squares[6]} onSquareClick={() => handleClick(6)} />
+          <Square squareIndex={7} ariaDescribedBy={"Bottom centre button"} value={squares[7]} onSquareClick={() => handleClick(7)} />
+          <Square squareIndex={8} ariaDescribedBy={"Bottom right button"} value={squares[8]} onSquareClick={() => handleClick(8)} />
+        </StyledButtonsContainer>
       </div>
     </>
   );
 }
 
-export default function Game() {
+export default function BoardGame() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
@@ -96,22 +149,3 @@ export default function Game() {
   );
 }
 
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
