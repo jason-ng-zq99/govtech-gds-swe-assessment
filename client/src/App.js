@@ -1,6 +1,7 @@
 import "./App.css";
 import MainPage from "./mainPage/mainPage";
 import GamePage from "./gamePage/gamePage";
+import io from 'socket.io-client';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,6 +10,8 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const socket = io("localhost:5001/");
+
   return (
     <>
       <Router>
