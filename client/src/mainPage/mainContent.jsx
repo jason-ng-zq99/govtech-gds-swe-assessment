@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from "@mui/material/styles";
+import { useNavigate } from 'react-router-dom';
 
 const ColorButton = styled(Button)((props) => ({
     width: "100%",
@@ -8,9 +9,15 @@ const ColorButton = styled(Button)((props) => ({
     marginBottom: "100px",
     color: "#ffffff",
     fontSize: "80px",
-  }));
+}));
 
 export default function MainContent() {
+    const directToEventPage = (link) => {
+        navigate("../" + link, { replace: true });
+    };
+
+    const navigate = useNavigate();
+
     return (
         <>
             <header style={{margin: '10px 0 0 0'}}>
@@ -18,7 +25,9 @@ export default function MainContent() {
             </header>
             <section style={{display: 'flex', flexDirection: 'column'}}>
                 <h3>Choose which game room to play:</h3>
-                <ColorButton style={{backgroundColor: "red"}}>
+                <ColorButton 
+                    style={{backgroundColor: "red"}}
+                    onClick={() => directToEventPage("gamePage")}>
                     Room 1
                 </ColorButton>
                 <ColorButton style={{backgroundColor: "green"}}>
