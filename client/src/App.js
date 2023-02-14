@@ -2,15 +2,27 @@ import "./App.css";
 import MainPage from "./mainPage/mainPage";
 import GamePage from "./gamePage/gamePage";
 import io from 'socket.io-client';
+import socketService from "./services/socketService";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
-  const socket = io("localhost:5001/");
+  const connectSocket = async () => {
+    const socket = await socketService
+      .connect("http://localhost:5001")
+      .catch((err) => {
+        console.log("Error: ", err);
+      });
+  };
+
+  useEffect(() => {
+    connectSocket();
+  }, []);
 
   return (
     <>
