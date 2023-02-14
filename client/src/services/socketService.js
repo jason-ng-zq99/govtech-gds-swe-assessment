@@ -1,6 +1,8 @@
 import { io, Socket } from "socket.io-client";
 
 class SocketService {
+    socket;
+
     connect(url) {
         return new Promise((rs, rj) => {
           this.socket = io(url);
@@ -16,7 +18,7 @@ class SocketService {
             rj(err);
           });
         });
-      }
+    }
 }
 
 export default new SocketService();

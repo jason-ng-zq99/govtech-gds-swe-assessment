@@ -26,6 +26,10 @@ def on_disconnect():
     """This tests the user connection"""
     print('User disconnected!')
 
+@SOCKETIO.on('message')
+def handle_message(data):
+    print('received message: ' + data)
+
 if __name__ == "__main__":
     SOCKETIO.run(
         app=app,

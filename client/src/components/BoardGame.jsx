@@ -1,7 +1,10 @@
 // code contributed from https://beta.reactjs.org/learn/tutorial-tic-tac-toe
 
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import styled from "styled-components";
+import gameContext from '../gameContext';
+import socketService from '../services/socketService';
+import gameService from '../services/gameService';
 
 // additional container to prevent button from moving when text is input
 const StyledButtonsContainer = styled.div`
@@ -113,11 +116,54 @@ export default function BoardGame() {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
+  const {
+    setPlayerSymbol,
+    playerSymbol,
+    setPlayerTurn,
+    isPlayerTurn,
+    setGameStarted,
+    isGameStarted,
+  } = useContext(gameContext);
+
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
+
+  // const handleGameUpdate = () => {
+  //   if (socketService.socket)
+  //     gameService.onGameUpdate(socketService.socket, (newMatrix) => {
+  //       // setMatrix(newMatrix);
+  //       // checkGameState(newMatrix);
+  //       setPlayerTurn(true);
+  //     });
+  // };
+
+  // const handleGameStart = () => {
+  //   if (socketService.socket)
+  //     gameService.onStartGame(socketService.socket, (options) => {
+  //       setGameStarted(true);
+  //       setPlayerSymbol(options.symbol);
+  //       if (options.start) setPlayerTurn(true);
+  //       else setPlayerTurn(false);
+  //     });
+  // };
+
+  // const handleGameWin = () => {
+  //   if (socketService.socket)
+  //     gameService.onGameWin(socketService.socket, (message) => {
+  //       console.log("Here", message);
+  //       setPlayerTurn(false);
+  //       alert(message);
+  //     });
+  // };
+
+  // useEffect(() => {
+    // handleGameUpdate();
+    // handleGameStart();
+    // handleGameWin();
+  // }, []);
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
