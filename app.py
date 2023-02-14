@@ -2,8 +2,10 @@ from flask import Flask, send_from_directory, json
 from flask_restful import Api
 from flask_cors import CORS
 from flask_socketio import SocketIO, rooms, join_room, send
+from server.game import game_api
 
 app = Flask(__name__, static_url_path='', static_folder='client/build')
+app.register_blueprint(game_api, url_prefix='/game')
 CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
 
