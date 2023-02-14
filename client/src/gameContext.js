@@ -9,6 +9,10 @@ const defaultState = {
   setPlayerTurn: () => {},
   isGameStarted: false,
   setGameStarted: () => {},
+  roomName: "",
+  setRoomName: () => {},
+  gameId: "",
+  setGameId: () => {}
 };
 
 export default React.createContext(defaultState);

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import gameContext from '../gameContext';
 import socketService from '../services/socketService';
 import gameService from '../services/gameService';
+import { saveMove } from '../utils/httpsFunction';
 
 // additional container to prevent button from moving when text is input
 const StyledButtonsContainer = styled.div`
@@ -68,6 +69,11 @@ function calculateWinner(squares) {
 let gameState = ['_', '_', '_', '_', '_', '_', '_', '_', '_'];
 
 function Board({ xIsNext, squares, onPlay }) {
+  const {
+    roomName,
+    gameId
+  } = useContext(gameContext); 
+
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -81,6 +87,16 @@ function Board({ xIsNext, squares, onPlay }) {
       gameState[i] = 'O';
     }
     onPlay(nextSquares);
+
+    move = {
+      game_id: gameId,
+      move_number: currentMove,
+      room_name: roomName,
+      placed_symbol: xIsNext ? 'X' : 'O'
+    }
+
+    const response = saveMove(move);
+    console.log(response.data);
   }
 
   const winner = calculateWinner(squares);
@@ -132,6 +148,8 @@ export default function BoardGame() {
     isPlayerTurn,
     setGameStarted,
     isGameStarted,
+    roomName,
+    gameId
   } = useContext(gameContext);
 
   function handlePlay(nextSquares) {
@@ -195,10 +213,10 @@ export default function BoardGame() {
   return (
     <div className="game">
       <div className="game-board">
-        {!isGameStarted && (
+        {/* {!isGameStarted && (
           <h2>Waiting for Other Player to Join to Start the Game!</h2>
         )}
-        {(!isGameStarted || !isPlayerTurn) && <StopLayer />}
+        {(!isGameStarted || !isPlayerTurn) && <StopLayer />} */}
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">

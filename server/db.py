@@ -1,6 +1,6 @@
 from firebase_admin import credentials, firestore, initialize_app
 import server.config as config
-from time import time
+
 
 cred = credentials.Certificate(
     {
@@ -24,5 +24,6 @@ def add_move_into_db(move):
     collection_ref.add({
         'game_id': move.get('game_id'),
         'move_number': move.get('move_number'),
+        'room_number': move.get('room_number'),
         'placed_symbol': move.get('placed_symbol'),
     })
