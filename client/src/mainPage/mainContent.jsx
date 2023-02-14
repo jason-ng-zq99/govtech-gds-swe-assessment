@@ -27,7 +27,6 @@ export default function MainContent() {
                 <h1>Hi! Welcome to Tic Tac Toe.</h1>
             </header>
             <section style={{display: 'flex', flexDirection: 'column'}}>
-                <h3>Enter Room ID to Join the Game: </h3>
                 {!isInRoom && <JoinRoom />}
                 {isInRoom && <BoardGame />}
             </section>

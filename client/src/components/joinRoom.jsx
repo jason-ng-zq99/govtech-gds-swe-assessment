@@ -43,17 +43,20 @@ export default function JoinRoom() {
     };
 
     return (
-        <form onSubmit={joinRoom}>
-            <div>
-                <TextField
-                placeholder="Room ID"
-                value={roomName}
-                onChange={handleRoomNameChange}
-                />
-                <Button type="submit" disabled={isJoining}>
-                    {isJoining ? "Joining..." : "Join"}
-                </Button>
-            </div>
-        </form>
+        <>
+            <header>Enter Room ID to Join the Game: </header>
+            <form onSubmit={joinRoom}>
+                <div>
+                    <TextField
+                    placeholder="Room ID"
+                    value={roomName}
+                    onChange={handleRoomNameChange}
+                    />
+                    <Button type="submit" disabled={isJoining}>
+                        {isJoining ? "Joining..." : "Join"}
+                    </Button>
+                </div>
+            </form>
+        </>
     )
 }
