@@ -25,6 +25,16 @@ const StyledButton = styled.button`
                                                                                 : "black"};
 `
 
+const StopLayer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  cursor: default;
+`;
+
 function Square({ value, onSquareClick, squareIndex }) {
   return (
     <StyledButton index={squareIndex} onClick={onSquareClick}>
@@ -84,7 +94,6 @@ function Board({ xIsNext, squares, onPlay }) {
   return (
     <>
       <div className="status">{status}</div>
-      
       <div className="board-row">
         <StyledButtonsContainer>
           <Square squareIndex={0} ariaDescribedBy={"Top left button"} value={squares[0]} onSquareClick={() => handleClick(0)} />
@@ -186,6 +195,10 @@ export default function BoardGame() {
   return (
     <div className="game">
       <div className="game-board">
+        {!isGameStarted && (
+          <h2>Waiting for Other Player to Join to Start the Game!</h2>
+        )}
+        {(!isGameStarted || !isPlayerTurn) && <StopLayer />}
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
