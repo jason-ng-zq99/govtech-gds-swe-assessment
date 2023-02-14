@@ -87,16 +87,6 @@ function Board({ xIsNext, squares, onPlay }) {
       gameState[i] = 'O';
     }
     onPlay(nextSquares);
-
-    move = {
-      game_id: gameId,
-      move_number: currentMove,
-      room_name: roomName,
-      placed_symbol: xIsNext ? 'X' : 'O'
-    }
-
-    const response = saveMove(move);
-    console.log(response.data);
   }
 
   const winner = calculateWinner(squares);
@@ -156,6 +146,16 @@ export default function BoardGame() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
+
+    let move = {
+      game_id: gameId,
+      move_number: currentMove,
+      room_name: roomName,
+      placed_symbol: xIsNext ? 'X' : 'O'
+    }
+
+    const response = async () => { await saveMove(move); }
+    console.log(response.data);
   }
 
   // const handleGameUpdate = () => {
