@@ -42,3 +42,6 @@ Agree and enter `y`.
 so games are still single browser as of now
 - Backend APIs for retrieving game history
 - Hosting on online servers
+
+## Architecture Diagram
+![Architecture Diagram](https://user-images.githubusercontent.com/54024886/218786138-c6b3237a-df0a-4fbb-bf54-2c3a90d701d6.png)
