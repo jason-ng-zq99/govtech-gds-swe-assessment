@@ -69,11 +69,6 @@ function calculateWinner(squares) {
 let gameState = ['_', '_', '_', '_', '_', '_', '_', '_', '_'];
 
 function Board({ xIsNext, squares, onPlay }) {
-  const {
-    roomName,
-    gameId
-  } = useContext(gameContext); 
-
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -133,11 +128,8 @@ export default function BoardGame() {
 
   const {
     setPlayerSymbol,
-    playerSymbol,
     setPlayerTurn,
-    isPlayerTurn,
     setGameStarted,
-    isGameStarted,
     roomName,
     gameId
   } = useContext(gameContext);
@@ -158,15 +150,6 @@ export default function BoardGame() {
     console.log(response.data);
   }
 
-  // const handleGameUpdate = () => {
-  //   if (socketService.socket)
-  //     gameService.onGameUpdate(socketService.socket, (newMatrix) => {
-  //       // setMatrix(newMatrix);
-  //       // checkGameState(newMatrix);
-  //       setPlayerTurn(true);
-  //     });
-  // };
-
   const handleGameStart = () => {
     if (socketService.socket)
       gameService.onStartGame(socketService.socket, (options) => {
@@ -177,19 +160,8 @@ export default function BoardGame() {
       });
   };
 
-  // const handleGameWin = () => {
-  //   if (socketService.socket)
-  //     gameService.onGameWin(socketService.socket, (message) => {
-  //       console.log("Here", message);
-  //       setPlayerTurn(false);
-  //       alert(message);
-  //     });
-  // };
-
   useEffect(() => {
-    // handleGameUpdate();
     handleGameStart();
-    // handleGameWin();
   }, []);
 
   function jumpTo(nextMove) {
