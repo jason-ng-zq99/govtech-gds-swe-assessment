@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory, json
 from flask_restful import Api
 from flask_cors import CORS
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room
 
 app = Flask(__name__, static_url_path='', static_folder='client/build')
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -29,6 +29,13 @@ def on_disconnect():
 @SOCKETIO.on('message')
 def handle_message(data):
     print('received message: ' + data)
+
+@SOCKETIO.on('join_game')
+def on_join_game(data):
+    room = data['roomId']
+    join_room(room)
+    print("A player has entered room:", room)
+    SOCKETIO.send('A player has entered the room.', to=room)
 
 if __name__ == "__main__":
     SOCKETIO.run(
