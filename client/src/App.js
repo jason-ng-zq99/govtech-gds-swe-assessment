@@ -1,7 +1,6 @@
 import "./App.css";
 import MainPage from "./mainPage/mainPage";
 import GamePage from "./gamePage/gamePage";
-import io from 'socket.io-client';
 import socketService from "./services/socketService";
 import {
   BrowserRouter as Router,
