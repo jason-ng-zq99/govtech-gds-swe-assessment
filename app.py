@@ -1,15 +1,13 @@
 from flask import Flask, send_from_directory, json
 from flask_restful import Api
 from flask_cors import CORS
-from flask_socketio import SocketIO, join_room
+from flask_socketio import SocketIO, rooms, join_room
 
 app = Flask(__name__, static_url_path='', static_folder='client/build')
 CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
 
-SOCKETIO = SocketIO(
-    app, cors_allowed_origins="*", json=json, manage_session=False
-)
+SOCKETIO = SocketIO(app, cors_allowed_origins="*", json=json, manage_session=True, logger=True, engineio_logger=True)
 
 @app.route("/", defaults={'path':''})
 @app.route('/<path:path>')
@@ -31,11 +29,30 @@ def handle_message(data):
     print('received message: ' + data)
 
 @SOCKETIO.on('join_game')
-def on_join_game(data):
-    room = data['roomId']
-    join_room(room)
-    print("A player has entered room:", room)
-    SOCKETIO.send('A player has entered the room.', to=room)
+def joinGame(message):
+    connectedSockets = rooms(message['roomId'])
+    print('Received join game request to room:', message['roomId'])
+    print('Number of sockets in this room:', len(connectedSockets))
+
+    if len(connectedSockets) >= 2:
+        SOCKETIO.emit("room_join_error", {
+            'error': "Room is full! Please choose another room to play."
+        })
+    else:
+        join_room(message['roomId'])
+        print("A user joined this room: ", message['roomId'])
+        print("Number of users in room after joining: ", len(rooms(message['roomId'])))
+        SOCKETIO.emit("room_joined")
+
+    if (len(connectedSockets) == 2):
+        SOCKETIO.emit("start_game", {
+            'start': True,
+            'symbol': "X"
+        })
+        SOCKETIO.to(message['roomId']).emit("start_game", {
+            'start': False,
+            'symbol': "O"
+        })
 
 if __name__ == "__main__":
     SOCKETIO.run(

@@ -9,7 +9,7 @@ import { useContext } from 'react';
 export default function JoinRoom() {
     const [roomName, setRoomName] = useState("");
     const [isJoining, setJoining] = useState(false);
-    const { setInRoom, isInRoom } = useContext(gameContext);
+    const { setInRoom } = useContext(gameContext);
 
     const handleRoomNameChange = (event) => {
         const value = event.target.value;
@@ -21,17 +21,19 @@ export default function JoinRoom() {
         console.log("Joining room -- room name: ", roomName);
         
         const socket = socketService.socket;
-        socket.send("Beginning join room event...");
 
         if (!roomName || roomName.trim() === "" || !socket) {
             return;
         }
 
         setJoining(true);
-        const joined = gameService.joinGameRoom(socket, roomName)
-                                        .catch((err) => {
-                                            alert(err);
-                                        });
+        console.log('Sending join game request')
+        const joined = gameService
+        .joinGameRoom(socket, roomName)
+        .catch((err) => {
+        alert(err);
+        });
+        console.log("LIST OF ROOMS:", socket.rooms);                               
 
         if (joined) {
             console.log("now in room");

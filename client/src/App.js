@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 function App() {
   const connectSocket = async () => {
-    const socket = await socketService
+    await socketService
       .connect("http://localhost:5001")
       .catch((err) => {
         console.log("Error: ", err);
