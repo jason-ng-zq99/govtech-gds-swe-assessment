@@ -149,15 +149,15 @@ export default function BoardGame() {
   //     });
   // };
 
-  // const handleGameStart = () => {
-  //   if (socketService.socket)
-  //     gameService.onStartGame(socketService.socket, (options) => {
-  //       setGameStarted(true);
-  //       setPlayerSymbol(options.symbol);
-  //       if (options.start) setPlayerTurn(true);
-  //       else setPlayerTurn(false);
-  //     });
-  // };
+  const handleGameStart = () => {
+    if (socketService.socket)
+      gameService.onStartGame(socketService.socket, (options) => {
+        setGameStarted(true);
+        setPlayerSymbol(options.symbol);
+        if (options.start) setPlayerTurn(true);
+        else setPlayerTurn(false);
+      });
+  };
 
   // const handleGameWin = () => {
   //   if (socketService.socket)
@@ -168,11 +168,11 @@ export default function BoardGame() {
   //     });
   // };
 
-  // useEffect(() => {
+  useEffect(() => {
     // handleGameUpdate();
-    // handleGameStart();
+    handleGameStart();
     // handleGameWin();
-  // }, []);
+  }, []);
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);

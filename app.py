@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory, json
 from flask_restful import Api
 from flask_cors import CORS
-from flask_socketio import SocketIO, rooms, join_room
+from flask_socketio import SocketIO, rooms, join_room, send
 
 app = Flask(__name__, static_url_path='', static_folder='client/build')
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -39,9 +39,11 @@ def joinGame(message):
             'error': "Room is full! Please choose another room to play."
         })
     else:
-        join_room(message['roomId'])
-        print("A user joined this room: ", message['roomId'])
-        print("Number of users in room after joining: ", len(rooms(message['roomId'])))
+        roomId = message['roomId']
+        join_room(roomId)
+        print("A user joined this room: ", roomId)
+        print("Number of users in room after joining: ", len(rooms(roomId)))
+        send("A new user has joined this room.", to=roomId)
         SOCKETIO.emit("room_joined")
 
     if (len(connectedSockets) == 2):

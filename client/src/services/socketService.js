@@ -1,9 +1,7 @@
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 
 class SocketService {
-    socket;
-
-    connect(url) {
+    async connect(url) {
         return new Promise((rs, rj) => {
           this.socket = io(url);
     
