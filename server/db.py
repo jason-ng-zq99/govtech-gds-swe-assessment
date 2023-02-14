@@ -18,3 +18,11 @@ cred = credentials.Certificate(
 )
 initialize_app(cred)
 db = firestore.client()
+
+def add_move_into_db(move):
+    collection_ref = db.collection('history')
+    collection_ref.add({
+        'game_id': move.get('game_id'),
+        'move_number': move.get('move_number'),
+        'placed_symbol': move.get('placed_symbol'),
+    })
