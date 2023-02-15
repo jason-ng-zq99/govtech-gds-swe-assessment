@@ -10,7 +10,7 @@ Players are able to create unique game rooms that allows you to have your privat
 - Large and contrasting buttons for great visibility<br/>
 ![Screenshot 2023-02-14 at 23 10 10](https://user-images.githubusercontent.com/54024886/218777850-8bcb3c88-f60e-4551-bbda-29177b582060.png)
 
-## Setting up
+## Setting up (without database)
 1. Clone this repository on your local machine.
 2. Install the relevant dependencies:
   - In the root directory, run `pip install -r requirements.txt`.
@@ -21,6 +21,19 @@ Players are able to create unique game rooms that allows you to have your privat
 The second tab you run the command on might ask if you want to run the web page on another part.<br/>
 Agree and enter `y`.
 6. Two webpages should be launched and you can play the game!
+
+## Setting up (with database)
+1. Create your own [Firebase project](https://console.firebase.google.com/u/0/)
+2. Build a Firestore Database
+3. Generate a private key (stored in a `json` file) at `Project Settings` -> `Firebase Admin SDK` -> `Python`
+4. Create a `.env` file at the root of the project, and fill in the corresponding details as per the `json` file:
+- `DB_PROJECT_ID`
+- `DB_PRIVATE_KEY_ID`
+- `DB_PRIVATE_KEY`
+- `DB_CLIENT_EMAIL`
+- `DB_CLIENT_ID`
+- `DB_CLIENT_X509_CERT_URL`
+- An example will be `DB_PROJECT_ID=my-test-id`
 
 ## Tech stack
 - ReactJS (frontend)
