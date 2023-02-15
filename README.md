@@ -33,7 +33,7 @@ Agree and enter `y`.
 - `DB_CLIENT_EMAIL`
 - `DB_CLIENT_ID`
 - `DB_CLIENT_X509_CERT_URL`
-- An example will be `DB_PROJECT_ID=my-test-id`
+- An example line in the `.env` file is: `DB_PROJECT_ID=my-test-id`
 
 ## Tech stack
 - ReactJS (frontend)
