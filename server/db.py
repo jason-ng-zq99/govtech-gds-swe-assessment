@@ -1,7 +1,6 @@
 from firebase_admin import credentials, firestore, initialize_app
 import server.config as config
 
-
 cred = credentials.Certificate(
     {
         "type": config.DB_TYPE,
@@ -16,6 +15,7 @@ cred = credentials.Certificate(
         "client_x509_cert_url": config.DB_CLIENT_X509_CERT_URL
     }
 )
+
 initialize_app(cred)
 db = firestore.client()
 
